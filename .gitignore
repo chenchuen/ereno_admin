@@ -59,3 +59,8 @@ typings/
 
 # next.js build output
 .next
+
+#production
+/build
+/src/aladdinapp-942fe-firebase-adminsdk-j60zx-9cf851fd22.json
+/functions/aladdinapp-942fe-firebase-adminsdk-j60zx-0a9586c82e
