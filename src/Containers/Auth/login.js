@@ -28,6 +28,7 @@ class Login extends React.PureComponent {
 
   _handleLogin = () => {
     const { username, password } = this.state;
+    const { history } = this.props;
 
     console.log(username, password);
 
@@ -39,6 +40,8 @@ class Login extends React.PureComponent {
       this.setState({
         error: '',
       });
+
+      this.props.login(username, password, history);
       //login
     }
   }
@@ -117,8 +120,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    login: (username, password) =>
-      dispatch(Actions.authLoginAttempt(username, password)),
+    login: (username, password, history) =>
+      dispatch(Actions.authLoginAttempt(username, password, history)),
   }
 }
 

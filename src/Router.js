@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-import Main from './Containers/main';
+import Home from './Containers/index';
 import Login from './Containers/Auth/login';
 import CustomerReport from './Containers/Reports/CustomerReport';
 import EarningsReport from './Containers/Reports/EarningsReport';
@@ -14,6 +14,7 @@ export default () =>
   (<BrowserRouter>
     <Switch>
       <Route path="/login" exact render={props => <Login {...props} />} />
+      <Route path="/" exact render={props => <Home {...props} />} />
       <Route path="/CustomerReport" exact render={props => <CustomerReport {...props} />} />
       <Route path="/EarningsReport" exact render={props => <EarningsReport {...props} />} />
       <Route path="/ReviewReport" exact render={props => <ReviewReport {...props} />} />

@@ -1,8 +1,8 @@
 import Types from './types';
 
-const authLoginAttempt = (username, password) => ({
+const authLoginAttempt = (username, password, history) => ({
   type: Types.AUTH_LOGIN_ATTEMPT,
-  username, password
+  username, password, history
 });
 
 const authLoginSuccess = () => ({

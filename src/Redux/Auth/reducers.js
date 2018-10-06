@@ -1,6 +1,7 @@
 const INITIAL_STATE = {
   attempting: false,
   error: '',
+  loggedIn: false,
 }
 
 const loginAttempt = (state = INITIAL_STATE) => {
@@ -14,6 +15,7 @@ const loginSuccess = (state = INITIAL_STATE) => {
   return {
     ...state,
     attempting: false,
+    loggedIn: true,
   }
 }
 
@@ -21,6 +23,7 @@ const loginFailure = (state = INITIAL_STATE, action) => {
   return {
     ...state,
     error: action.error,
+    loggedIn: false,
   }
 }
 

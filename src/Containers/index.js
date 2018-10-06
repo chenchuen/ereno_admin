@@ -1,9 +1,19 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import { Route, Link } from 'react-router-dom';
 import logo from '../logo.svg';
 
 class Main extends Component {
   render() {
+    const { isLoggedIn } = this.props;
+
+    if (!isLoggedIn) {
+      this.props.history.push('/login');
+
+      return null;
+    }
+
     return (
       <div className="App">
         <header className="App-header">
@@ -11,7 +21,6 @@ class Main extends Component {
         </header>
         <p className="App-intro">
           <ul>
-            <li><Link to="/">Main</Link></li>
             <li><Link to="/CustomerReport">CustomerReport</Link></li>
             <li><Link to="/EarningsReport">EarningsReport</Link></li>
             <li><Link to="/ReviewReport">ReviewReport</Link></li>
@@ -25,4 +34,10 @@ class Main extends Component {
   }
 }
 
-export default Main;
+const mapStateToProps = (state) => {
+  return {
+    isLoggedIn: state.auth.loggedIn,
+  }
+}
+
+export default connect(mapStateToProps)(Main);
