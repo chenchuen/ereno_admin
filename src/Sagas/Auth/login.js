@@ -4,8 +4,10 @@ import Actions from '../../Redux/Actions';
 import Types from '../../Redux/Auth/types';
 
 export function* watchLogin(api) {
-  const { username, password, history } = yield take(Types.AUTH_LOGIN_ATTEMPT);
-  yield call(handleLogin, username, password, history, api);
+  while (true) {
+    const { username, password, history } = yield take(Types.AUTH_LOGIN_ATTEMPT);
+    yield call(handleLogin, username, password, history, api);
+  }
 }
 
 export function* handleLogin(username, password, history, api) {
