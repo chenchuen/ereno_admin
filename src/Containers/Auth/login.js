@@ -87,7 +87,7 @@ class Login extends React.PureComponent {
           />
         </div>
 
-        <p style={{ color: 'red', textAlign: 'center'}}>
+        <p style={{ color: 'red' }}>
           {error}
         </p>
 

@@ -7,5 +7,7 @@ export default {
     [Types.AUTH_LOGIN_ATTEMPT]: Reducers.loginAttempt,
     [Types.AUTH_LOGIN_SUCCESS]: Reducers.loginSuccess,
     [Types.AUTH_LOGIN_FAILURE]: Reducers.loginFailure,
+
+    [Types.AUTH_LOGOUT_ATTEMPT]: Reducers.logoutAttempt,
   })
 }

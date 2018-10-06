@@ -27,10 +27,19 @@ const loginFailure = (state = INITIAL_STATE, action) => {
   }
 }
 
+const logoutAttempt = (state = INITIAL_STATE) => {
+  return {
+    ...state,
+    loggedIn: false,
+  }
+}
+
 export default {
   INITIAL_STATE,
 
   loginAttempt,
   loginSuccess,
   loginFailure,
+
+  logoutAttempt,
 }

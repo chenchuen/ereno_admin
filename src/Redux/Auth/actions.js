@@ -14,8 +14,14 @@ const authLoginFailure = (error) => ({
   error
 });
 
+const authLogoutAttempt = () => ({
+  type: Types.AUTH_LOGOUT_ATTEMPT,
+});
+
 export default {
   authLoginAttempt,
   authLoginSuccess,
   authLoginFailure,
+
+  authLogoutAttempt,
 }
