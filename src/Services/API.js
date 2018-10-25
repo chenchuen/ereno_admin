@@ -17,8 +17,20 @@ const create = (baseURL = 'https://us-central1-aladdinapp-942fe.cloudfunctions.n
     }, {});
   };
 
+  const getUserInfo = (email, token) => {
+    return api.post(`/Reports`, {
+      Method: "USER",
+      Data: {
+        Email: email,
+        Token: token,
+      },
+    }, {});
+  }
+
   return {
     login,
+
+    getUserInfo,
   };
 };
 

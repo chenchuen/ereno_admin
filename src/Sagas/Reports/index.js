@@ -4,7 +4,7 @@ import { watchGetCustomerInfo } from './getCustomerInfo';
 
 export default (api) => {
   function* rootSaga() {
-    yield fork(watchGetCustomerInfo);
+    yield fork(watchGetCustomerInfo, api);
   }
 
   return {

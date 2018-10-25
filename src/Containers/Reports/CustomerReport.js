@@ -32,10 +32,14 @@ class CustomerReport extends Component {
         <header className="App-header">
           <h1 className="App-title">CustomerReport</h1>
         </header>
+
         <label>Email</label>
         <input type='text' value={this.state.email} onChange={this._handleEmailChange} />
+
         <button onClick={this._getCustomerInfo}>Search</button>
+
         <label>{this.state.error}</label>
+
         <div>
           <button onClick={this.goBack}>Go Back</button>
         </div>

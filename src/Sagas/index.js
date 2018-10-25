@@ -9,5 +9,5 @@ const api = API.create('https://us-central1-aladdinapp-942fe.cloudfunctions.net'
 
 export default function* root() {
   yield fork(auth(api).rootSaga);
-  yield fork(reports().rootSaga);
+  yield fork(reports(api).rootSaga);
 }
