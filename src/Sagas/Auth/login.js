@@ -11,16 +11,18 @@ export function* watchLogin(api) {
 }
 
 export function* handleLogin(username, password, history, api) {
-  console.log(username, password);
+  const response = yield call(api.login, username, password);
 
-  const success = true;
+  const { data } = response;
 
-  if (success) {
-    yield put(Actions.authLoginSuccess());
+  if (data.token) {
+    yield put(Actions.authLoginSuccess(data.token));
 
     history.push('/');
   } else {
-    const errorMessage = "error";
-    yield put(Actions.authLoginFailure(errorMessage));
+    console.log(response);
+    const { message } = response.data;
+
+    yield put(Actions.authLoginFailure(message));
   }
 }

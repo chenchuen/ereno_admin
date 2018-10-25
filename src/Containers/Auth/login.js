@@ -18,19 +18,19 @@ class Login extends React.PureComponent {
       this.handleChange = this.handleChange.bind(this);
   }
 
-  componentDidReceiveProps(nextProps) {
-    if (this.props.error !== nextProps.error) {
+  componentDidUpdate(prevProps) {
+    if (prevProps.error !== this.props.error) {
       this.setState({
-        error: nextProps.error,
+        error: this.props.error
       });
     }
   }
 
-  _handleLogin = () => {
+  _handleLogin = (event) => {
+    event.preventDefault();
+
     const { username, password } = this.state;
     const { history } = this.props;
-
-    console.log(username, password);
 
     if (!username || !password) {
       this.setState({
@@ -44,6 +44,10 @@ class Login extends React.PureComponent {
       this.props.login(username, password, history);
       //login
     }
+  }
+
+  _handleForgotPassword = () => {
+    console.log("forgot password");
   }
 
   handleChange(key, event) {
@@ -61,6 +65,7 @@ class Login extends React.PureComponent {
       <div className="MainContainer">
         <h1 className="headerTextStyle">Login</h1>
 
+        <form onSubmit={this._handleLogin}>
         <div className="FormContainer">
           <label>
             Username:
@@ -94,7 +99,7 @@ class Login extends React.PureComponent {
         <div className="FormContainer">
           <button
             className="FormSubmitBtn"
-            onClick={this._handleLogin}
+            type="submit"
           >
             Login
           </button>
@@ -102,10 +107,13 @@ class Login extends React.PureComponent {
           <button
             className="FormSubmitBtn"
             onClick={this._handleForgotPassword}
+            type="button"
           >
             Forgot Password?
           </button>
+
         </div>
+        </form>
       </div>
     )
   }
