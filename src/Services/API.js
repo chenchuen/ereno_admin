@@ -27,8 +27,23 @@ const create = (baseURL = 'https://us-central1-aladdinapp-942fe.cloudfunctions.n
     }, {});
   }
 
+  const getAllTransactions = (from, to, token) => {
+    return api.post(`/Reports`, {
+      Method: "TRANSACTION",
+      Data: {
+        Token: token,
+        From: from,
+        To: to,
+        Email: '',
+        TransactionId: '',
+      }
+    })
+  }
+
   return {
     login,
+
+    getAllTransactions,
 
     getUserInfo,
   };

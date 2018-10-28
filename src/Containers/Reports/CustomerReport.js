@@ -6,26 +6,43 @@ import ReduxActions from '../../Redux/Actions';
 class CustomerReport extends Component {
   constructor(props){
    super(props);
+
    this.goBack = this.goBack.bind(this);
+
    this.state = {
       email: '',
       error: '',
     };
   }
-  goBack(){
+
+  componentWillMount() {
+    const { isLoggedIn } = this.props;
+
+    if (!isLoggedIn) {
+      this.props.history.push('/login');
+
+      return null;
+    }
+  }
+
+  goBack() {
     this.props.history.goBack();
   }
+
   _handleEmailChange = (event) => {
     this.setState({ email: event.target.value });
   }
+
   _getCustomerInfo = () => {
     if (this.state.email !== ''){
       this.setState({ error: '' });
+
       this.props.getCustomerInfo(this.state.email);
     } else {
       this.setState({ error: 'Please input valid email!' });
     }
   }
+
   render() {
     return (
       <div className="App">
@@ -49,10 +66,13 @@ class CustomerReport extends Component {
   }
 }
 
-const mapStateToProps = ( reports ) => {
-  const { customerInfo } = reports;
+const mapStateToProps = (state) => {
+  const { customerInfo } = state;
 
-  return { customerInfo };
+  return {
+    isLoggedIn: state.auth.loggedIn,
+    customerInfo
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {

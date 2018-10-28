@@ -15,8 +15,28 @@ const reportsGetCustomerInfoFailure = (error) => ({
   error
 });
 
+const reportsGetAllTransactionAttempt = (from, to) => ({
+  type: Types.REPORT_GET_ALL_TRANSACTION_ATTEMPT,
+  from,
+  to,
+});
+
+const reportsGetAllTransactionSuccess = (transactionList) => ({
+  type: Types.REPORT_GET_ALL_TRANSACTION_SUCCESS,
+  transactionList,
+});
+
+const reportsGetAllTransactionFailure = (error) => ({
+  type: Types.REPORT_GET_ALL_TRANSACTION_FAILURE,
+  error,
+});
+
 export default {
   reportsGetCustomerInfoAttempt,
   reportsGetCustomerInfoSuccess,
   reportsGetCustomerInfoFailure,
+
+  reportsGetAllTransactionAttempt,
+  reportsGetAllTransactionSuccess,
+  reportsGetAllTransactionFailure,
 };
