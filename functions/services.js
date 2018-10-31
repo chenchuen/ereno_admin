@@ -19,6 +19,19 @@ exports.getConfig = function() {
       PAYMENT_SUCCESS: 'PAYMENT_SUCCESS',
       PAYMENT_FAILED: 'PAYMENT_FAILED'
     },
+    AuthMethods: {
+      LOGIN: 'LOGIN'
+    },
+    ReportMethods: {
+      TRANSACTION: 'TRANSACTION',
+      USER: 'USER',
+      LOGINLOG: 'LOGINLOG',
+      VENDOR: 'VENDOR',
+      REVIEW: 'REVIEW',
+    },
+    ActionMethods: {
+      APPROVE_VENDOR: 'APPROVE_VENDOR',
+    },
     firebaseCredential: {
       apiKey: "AIzaSyCoeUXmwEIwUdkF4BWZKLVaSGRcrQPLkvg",
       authDomain: "aladdinapp-942fe.firebaseapp.com",
@@ -28,9 +41,7 @@ exports.getConfig = function() {
       messagingSenderId: "617243251381"
     }
   };
-
-}
-
+};
 
 exports.validateRequest = function(paymentInfo, MerchantPassword) {
   const toHash = MerchantPassword + paymentInfo.TxnID + paymentInfo.ServiceID
