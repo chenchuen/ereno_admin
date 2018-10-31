@@ -8,6 +8,7 @@ const { UserReport } = require('./UserReport');
 const { LoginReport } = require('./LoginReport');
 const { VendorReport } = require('./VendorReport');
 const { ReviewsReport } = require('./ReviewsReport');
+const { SummaryReport } = require('./SummaryReport');
 
 exports.ProcessRequest = async(function(req) {
   try {
@@ -28,17 +29,21 @@ exports.ProcessRequest = async(function(req) {
       case ReportMethods.VENDOR:
         response = await(VendorReport(Data));
         break;
-        case ReportMethods.REVIEW:
-          response = await(ReviewsReport(Data));
-          break;
+      case ReportMethods.REVIEW:
+        response = await(ReviewsReport(Data));
+        break;
+      case ReportMethods.SUMMARY:
+        response = await(SummaryReport(Data));
+        break;
       default: throw new Error('Bad Request');
     }
-
-    console.log(response);
     return response;
   } catch (error) {
     console.log(error);
-    return error;
+    return {
+      status: -1,
+      message: error.message,
+    };
   }
 });
 

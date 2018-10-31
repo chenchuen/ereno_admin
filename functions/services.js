@@ -28,6 +28,7 @@ exports.getConfig = function() {
       LOGINLOG: 'LOGINLOG',
       VENDOR: 'VENDOR',
       REVIEW: 'REVIEW',
+      SUMMARY: 'SUMMARY',
     },
     ActionMethods: {
       APPROVE_VENDOR: 'APPROVE_VENDOR',

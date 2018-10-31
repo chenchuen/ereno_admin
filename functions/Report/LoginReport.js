@@ -33,9 +33,7 @@ function getUserInfoByDateRange(userType, from, to){
                     .startAt(from)
                     .endAt(to)
                     .once('value', function (snapshot) {
-                        var key = snapshot.key,
-                        data = snapshot.val();
-                        resolve(data);
+                        resolve(snapshot.val());
                     });
   });
 }

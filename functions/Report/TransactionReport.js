@@ -70,11 +70,9 @@ function getTransactions(From, To, index) {
                     .orderByChild('createdDate')
                     .startAt(From)
                     .endAt(To)
-                    .limitToFirst(50)
+                    .limitToFirst(80)
                     .once('value', function (snapshot) {
-                        var key = snapshot.key,
-                        data = snapshot.val();
-                        resolve(data);
+                        resolve(snapshot.val());
                     });
   });
 }

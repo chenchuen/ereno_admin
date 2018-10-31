@@ -29,9 +29,7 @@ function getVendors(ApprovalStatus){
                     .orderByChild('ApprovalStatus')
                     .equalTo(ApprovalStatus)
                     .once('value', function (snapshot) {
-                        var key = snapshot.key,
-                        data = snapshot.val();
-                        resolve(data);
+                        resolve(snapshot.val());
                     });
   });
 }

@@ -16,12 +16,13 @@ exports.ProcessRequest = async(function(req) {
         break;
       default: throw new Error('Bad Request');
     }
-
-    console.log(response);
     return response;
   } catch (error) {
     console.log(error);
-    return error;
+    return {
+      status: -1,
+      message: error.message,
+    };
   }
 });
 

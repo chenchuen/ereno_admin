@@ -7,15 +7,19 @@ const { Login } = require('./Login');
 exports.ProcessRequest = async(function(req) {
   try {
     const Data = req.body.Data;
+    var response;
     switch (req.body.Method) {
       case AuthMethods.LOGIN:
-        const response = await(Login(Data));
-        console.log(response);
-        return response;
+        response = await(Login(Data));
+        break;
       default: throw new Error('Bad Request');
     }
+    return response;
   } catch (error) {
     console.log(error);
-    return error;
+    return {
+      status: -1,
+      message: error.message,
+    };
   }
 });

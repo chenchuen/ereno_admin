@@ -17,8 +17,6 @@ exports.ReviewsReport = async(function(Data) {
           data: 'No Reviews!'
         };
     }
-
-
   } catch(error) {
     console.log(error);
     return 'Failed';
@@ -29,9 +27,7 @@ function getReviews(Trxuid) {
   return new Promise(function (resolve, reject) {
     firebase.database().ref(`Reviews/${Trxuid}`)
                     .once('value', function (snapshot) {
-                        var key = snapshot.key,
-                        data = snapshot.val();
-                        resolve(data);
+                        resolve(snapshot.val());
                     });
   });
 }
