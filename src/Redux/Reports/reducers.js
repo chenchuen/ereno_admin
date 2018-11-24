@@ -40,11 +40,19 @@ const getAllTransactionsAttempt = (state = INITIAL_STATE) => {
 const getAllTransactionsSuccess = (state = INITIAL_STATE, action) => {
   const { transactionList } = action;
 
+  let stateTransactionList = state.transactionList;
+
+  if (stateTransactionList.length) {
+    stateTransactionList = stateTransactionList.concat(transactionList);
+  } else {
+    stateTransactionList = transactionList;
+  }
+
   return {
     ...state,
     loading: false,
     errorMessage: '',
-    transactionList,
+    transactionList: stateTransactionList,
   };
 };
 

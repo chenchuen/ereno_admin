@@ -5,13 +5,13 @@ import Types from '../../Redux/Reports/types';
 
 export function* watchGetAllTransactions(api) {
   while (true) {
-    const { from, to } = yield take(Types.REPORT_GET_ALL_TRANSACTION_ATTEMPT);
+    const { from, to, lastTransaction } = yield take(Types.REPORT_GET_ALL_TRANSACTION_ATTEMPT);
 
-    yield call(handleGetAllTransactions, from, to, api);
+    yield call(handleGetAllTransactions, from, to, lastTransaction, api);
   }
 }
 
-export function* handleGetAllTransactions(from, to, api) {
+export function* handleGetAllTransactions(from, to, lastTransaction, api) {
   const state = yield select();
 
   const { token } = state.auth;
@@ -22,8 +22,27 @@ export function* handleGetAllTransactions(from, to, api) {
   if (data.status === 0) {
     //success
     const dataArray = Object.keys(data.data).map(i => data.data[i]);
+    let newDataArrayToReturn = [];
+    let lastTransactionIndex = -1;
 
-    yield put(Actions.reportsGetAllTransactionSuccess(dataArray));
+    if (lastTransaction) {
+      for (let i = 0; i < dataArray.length; i++) {
+        //if there is a last transaction, we're gonna compare it with the new data
+        //and if it's in the new data array, we'll only take data after this last trx
+        if (dataArray[i].transactionUID === lastTransaction.transactionUID) {
+          lastTransactionIndex = i;
+          break;
+        }
+      }
+
+      if (lastTransactionIndex >= 0) {
+        newDataArrayToReturn = dataArray.slice(lastTransactionIndex + 1);
+      }
+    } else {
+      newDataArrayToReturn = dataArray;
+    }
+
+    yield put(Actions.reportsGetAllTransactionSuccess(newDataArrayToReturn));
   } else if (data.status === -1) {
     //fail
     let error = 'Error getting data.';
