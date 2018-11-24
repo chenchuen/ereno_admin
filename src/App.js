@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import admin from 'firebase-admin'
 
 import Router from './Router';
 import store from './store.js';

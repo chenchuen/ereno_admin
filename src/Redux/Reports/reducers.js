@@ -2,6 +2,7 @@ const INITIAL_STATE = {
   loading: false,
   errorMessage: '',
   customerInfo: {},
+  transactionList: [],
 };
 
 const getCustomerInfoAttempt = (state = INITIAL_STATE) => {
@@ -28,10 +29,51 @@ const getCustomerInfoFailure = (state = INITIAL_STATE, action) => {
   }
 }
 
+const getAllTransactionsAttempt = (state = INITIAL_STATE) => {
+  return {
+    ...state,
+    loading: true,
+    errorMessage: '',
+  }
+}
+
+const getAllTransactionsSuccess = (state = INITIAL_STATE, action) => {
+  const { transactionList } = action;
+
+  let stateTransactionList = state.transactionList;
+
+  if (stateTransactionList.length) {
+    stateTransactionList = stateTransactionList.concat(transactionList);
+  } else {
+    stateTransactionList = transactionList;
+  }
+
+  return {
+    ...state,
+    loading: false,
+    errorMessage: '',
+    transactionList: stateTransactionList,
+  };
+};
+
+const getAllTransactionsFailure = (state = INITIAL_STATE, action) => {
+  const { error } = action;
+
+  return {
+    ...state,
+    loading: false,
+    errorMessage: error
+  };
+};
+
 export default {
   INITIAL_STATE,
-  
+
   getCustomerInfoAttempt,
   getCustomerInfoSuccess,
   getCustomerInfoFailure,
+
+  getAllTransactionsAttempt,
+  getAllTransactionsSuccess,
+  getAllTransactionsFailure,
 };

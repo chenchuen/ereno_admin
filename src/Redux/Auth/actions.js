@@ -5,8 +5,9 @@ const authLoginAttempt = (username, password, history) => ({
   username, password, history
 });
 
-const authLoginSuccess = () => ({
-  type: Types.AUTH_LOGIN_SUCCESS
+const authLoginSuccess = (token) => ({
+  type: Types.AUTH_LOGIN_SUCCESS,
+  token,
 });
 
 const authLoginFailure = (error) => ({
@@ -14,8 +15,14 @@ const authLoginFailure = (error) => ({
   error
 });
 
+const authLogoutAttempt = () => ({
+  type: Types.AUTH_LOGOUT_ATTEMPT,
+});
+
 export default {
   authLoginAttempt,
   authLoginSuccess,
   authLoginFailure,
+
+  authLogoutAttempt,
 }

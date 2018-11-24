@@ -1,0 +1,34 @@
+.DatePickerLabel {
+  width: 20%;
+}
+
+.GenerateReportButton {
+  margin-top: 15px;
+  justify-content: center;
+  background-color: lightgrey;
+  padding: 10px;
+  border: 0;
+  width: 150px;
+}
+
+.GenerateReportButton:hover {
+  background: #1d69e2;
+}
+
+.ExitButton {
+  margin-top: 15px;
+  justify-content: center;
+  background-color: lightgrey;
+  padding: 10px;
+  border: 0;
+  width: 150px;
+  margin-right: 10px;
+}
+
+.ExitButton:hover {
+  background: grey;
+}
+
+.ErrorText {
+  color: 'red'
+}

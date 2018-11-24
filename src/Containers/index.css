@@ -1,0 +1,24 @@
+.MainContainer {
+  margin: 20px;
+}
+
+.ListItem {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.LogOutButton {
+  margin-top: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  justify-content: center;
+  background-color: lightgrey;
+  padding: 10px;
+  border: 0;
+  width: 150px;
+}
+
+.LogOutButton:hover {
+  background: #1d69e2;
+}
