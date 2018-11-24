@@ -41,14 +41,17 @@ function getUserInfoByUid(userId, userType){
 }
 
 function getUserInfoByDateRange(userType, from, to){
-  console.log(from, to);
   return new Promise(function (resolve, reject) {
     firebase.database().ref(`Users/${userType}`)
                     .orderByChild('SignUpDate')
                     .startAt(from)
                     .endAt(to)
                     .once('value', function (snapshot) {
-                        resolve(snapshot.val());
+                      var result = [];
+                      snapshot.forEach(child => {
+                          result.push(child);
+                      });
+                      resolve(result);
                     });
   });
 }

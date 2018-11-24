@@ -72,7 +72,11 @@ function getTransactions(From, To, index) {
                     .endAt(To)
                     .limitToFirst(80)
                     .once('value', function (snapshot) {
-                        resolve(snapshot.val());
+                      var result = [];
+                      snapshot.forEach(child => {
+                          result.push(child);
+                      });
+                      resolve(result);
                     });
   });
 }
