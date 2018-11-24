@@ -1,13 +1,31 @@
 const functions = require('firebase-functions');
+const firebase = require('firebase');
 const admin = require('firebase-admin');
+const async = require('es5-async-await/async');
+const await = require('es5-async-await/await');
+const services = require('./services');
+const firebaseCredential = services.getConfig().firebaseCredential;
 const serviceAccount = require('./aladdinapp-942fe-firebase-adminsdk-j60zx-0a9586c82e.json');
+firebase.initializeApp(firebaseCredential);
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: 'https://aladdinapp-942fe.firebaseio.com'
 });
 const sha256 = require('sha256');
-const services = require('./services');
 const Method = services.getConfig().Methods;
+const Auth = require('./Auth/index');
+const Report = require('./Report/index');
+const Actions = require('./Actions/index');
+
+exports.Auth = functions.https.onRequest(async((req, resp) => {
+  resp.send(await(Auth.ProcessRequest(req)));
+}));
+exports.Reports = functions.https.onRequest(async((req, resp) => {
+  resp.send(await(Report.ProcessRequest(req)));
+}));
+exports.Actions = functions.https.onRequest(async((req, resp) => {
+  resp.send(await(Actions.ProcessRequest(req)));
+}));
 
 exports.getFullParameters = functions.https.onRequest((req, resp) => {
   const config = services.getConfig();
@@ -153,7 +171,6 @@ function setMessage(method, transactionUID, userType) {
             timestamp: date.toISOString()
           }
       };
-      break;
     case Method.UPDATE_TRANSACTION:
       return {
           notification: {
@@ -166,7 +183,6 @@ function setMessage(method, transactionUID, userType) {
             timestamp: date.toISOString()
           }
       };
-      break;
     case Method.REVIEW:
       return {
           notification: {
@@ -179,7 +195,6 @@ function setMessage(method, transactionUID, userType) {
             timestamp: date.toISOString()
           }
       };
-      break;
     case Method.PAYMENT_PENDING:
       return {
           notification: {
@@ -193,7 +208,6 @@ function setMessage(method, transactionUID, userType) {
             timestamp: date.toISOString()
           }
       };
-      break;
     case Method.PAYMENT_SUCCESS:
       if (userType === 'customer') {
         return {
@@ -222,7 +236,6 @@ function setMessage(method, transactionUID, userType) {
       } else {
         throw new Error('Invalid user type!');
       }
-      break;
       case Method.PAYMENT_FAILED:
         return {
             notification: {
@@ -235,7 +248,6 @@ function setMessage(method, transactionUID, userType) {
               timestamp: date.toISOString()
             }
         };
-        break;
     default:
       throw new Error('Failed setting message');
   }
@@ -250,7 +262,7 @@ function getRecipientFCMToken(admin, userType, recipientUID) {
         });
     });
   } catch (error) {
-    throw error
+    throw error;
   }
   //
   // const FCMToken = await admin.database().ref(`Users/${userType}/${recipientUID}/fcmToken`)
@@ -275,11 +287,18 @@ function sendNotification(admin, userType, recipientUID, payload) {
           .catch(function (error) {
               console.log("Error sending message:", error);
               throw new Error('Failed sending notification!');
-              return;
           });
     });
   } catch (error) {
-    throw error
+    throw error;
   }
+}
 
+function validateRequest(req) {
+  try {
+    var asd = req;
+    return true;
+  } catch (error) {
+    throw error;
+  }
 }
