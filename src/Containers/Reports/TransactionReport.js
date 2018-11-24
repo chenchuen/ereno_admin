@@ -26,6 +26,7 @@ class TransactionReport extends Component {
       to,
       loading: false,
       error: '',
+      currentPageIndex: 0,
    }
 
    this.goBack = this.goBack.bind(this);
@@ -125,6 +126,7 @@ class TransactionReport extends Component {
     const formattedTo = to.utc().format();
 
     this.props.getAllTransactions(formattedFrom, formattedTo);
+    this._changePageIndex(0);
   }
 
   _getTableColumns = () => {
@@ -150,7 +152,15 @@ class TransactionReport extends Component {
     }]
   }
 
+  _changePageIndex = (currentPageIndex) => {
+    this.setState({
+      currentPageIndex
+    });
+  }
+
   _onTablePageChanged = (pageIndex) => {
+    this._changePageIndex(pageIndex);
+
     const { data, getAllTransactions } = this.props;
     const { to } = this.state;
 
@@ -169,6 +179,7 @@ class TransactionReport extends Component {
 
   _renderTable = () => {
     const { data, loading } = this.props;
+    const { currentPageIndex } = this.state;
 
     if (data.length) {
       return (
@@ -178,6 +189,7 @@ class TransactionReport extends Component {
             onPageChanged={this._onTablePageChanged}
             loading={loading}
             pageSize={TABLE_PAGE_SIZE}
+            page={currentPageIndex}
           />
       )
     }

@@ -22,9 +22,10 @@ const reportsGetAllTransactionAttempt = (from, to, lastTransaction) => ({
   lastTransaction,
 });
 
-const reportsGetAllTransactionSuccess = (transactionList) => ({
+const reportsGetAllTransactionSuccess = (transactionList, shouldResetReduxData) => ({
   type: Types.REPORT_GET_ALL_TRANSACTION_SUCCESS,
   transactionList,
+  shouldResetReduxData
 });
 
 const reportsGetAllTransactionFailure = (error) => ({

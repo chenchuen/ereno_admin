@@ -8,7 +8,7 @@ import 'react-table/react-table.css';
 
 class Table extends React.PureComponent {
   render() {
-    const { data, columns, onPageChanged, loading, pageSize } = this.props;
+    const { data, columns, onPageChanged, loading, pageSize, page } = this.props;
 
     return (
       <ReactTable
@@ -18,6 +18,7 @@ class Table extends React.PureComponent {
         onPageChange={onPageChanged}
         loading={loading}
         defaultPageSize={pageSize}
+        page={page}
       />
     );
   };

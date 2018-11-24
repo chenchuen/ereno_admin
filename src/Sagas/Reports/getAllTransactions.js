@@ -24,6 +24,7 @@ export function* handleGetAllTransactions(from, to, lastTransaction, api) {
     const dataArray = Object.keys(data.data).map(i => data.data[i]);
     let newDataArrayToReturn = [];
     let lastTransactionIndex = -1;
+    let shouldResetReduxData = false;
 
     if (lastTransaction) {
       for (let i = 0; i < dataArray.length; i++) {
@@ -39,10 +40,12 @@ export function* handleGetAllTransactions(from, to, lastTransaction, api) {
         newDataArrayToReturn = dataArray.slice(lastTransactionIndex + 1);
       }
     } else {
+      //if no last transaction, it's new generate report request, so we should clear redux first
+      shouldResetReduxData = true;
       newDataArrayToReturn = dataArray;
     }
 
-    yield put(Actions.reportsGetAllTransactionSuccess(newDataArrayToReturn));
+    yield put(Actions.reportsGetAllTransactionSuccess(newDataArrayToReturn, shouldResetReduxData));
   } else if (data.status === -1) {
     //fail
     let error = 'Error getting data.';

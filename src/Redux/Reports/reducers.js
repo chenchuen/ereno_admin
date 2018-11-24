@@ -38,11 +38,11 @@ const getAllTransactionsAttempt = (state = INITIAL_STATE) => {
 }
 
 const getAllTransactionsSuccess = (state = INITIAL_STATE, action) => {
-  const { transactionList } = action;
+  const { transactionList, shouldResetReduxData } = action;
 
   let stateTransactionList = state.transactionList;
 
-  if (stateTransactionList.length) {
+  if (stateTransactionList.length && !shouldResetReduxData) {
     stateTransactionList = stateTransactionList.concat(transactionList);
   } else {
     stateTransactionList = transactionList;
