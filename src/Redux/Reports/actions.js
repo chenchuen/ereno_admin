@@ -15,15 +15,17 @@ const reportsGetCustomerInfoFailure = (error) => ({
   error
 });
 
-const reportsGetAllTransactionAttempt = (from, to) => ({
+const reportsGetAllTransactionAttempt = (from, to, lastTransaction) => ({
   type: Types.REPORT_GET_ALL_TRANSACTION_ATTEMPT,
   from,
   to,
+  lastTransaction,
 });
 
-const reportsGetAllTransactionSuccess = (transactionList) => ({
+const reportsGetAllTransactionSuccess = (transactionList, shouldResetReduxData) => ({
   type: Types.REPORT_GET_ALL_TRANSACTION_SUCCESS,
   transactionList,
+  shouldResetReduxData
 });
 
 const reportsGetAllTransactionFailure = (error) => ({

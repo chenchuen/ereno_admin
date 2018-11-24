@@ -7,8 +7,12 @@ import ReactLoading from 'react-loading';
 
 import Actions from '../../Redux/Actions';
 
+import Table from '../../Components/Table';
+
 import './css/TransactionReport.css';
 import 'react-datepicker/dist/react-datepicker.css';
+
+const TABLE_PAGE_SIZE = 20;
 
 class TransactionReport extends Component {
   constructor(props) {
@@ -22,6 +26,7 @@ class TransactionReport extends Component {
       to,
       loading: false,
       error: '',
+      currentPageIndex: 0,
    }
 
    this.goBack = this.goBack.bind(this);
@@ -39,7 +44,10 @@ class TransactionReport extends Component {
       return null;
     }
 
-    getAllTransactions(from, to);
+    const formattedFrom = from.utc().format();
+    const formattedTo = to.utc().format();
+
+    getAllTransactions(formattedFrom, formattedTo);
   }
 
   componentDidUpdate(prevProps) {
@@ -118,6 +126,75 @@ class TransactionReport extends Component {
     const formattedTo = to.utc().format();
 
     this.props.getAllTransactions(formattedFrom, formattedTo);
+    this._changePageIndex(0);
+  }
+
+  _getTableColumns = () => {
+    return [{
+        Header: 'Customer name',
+        accessor: 'customerName'
+    }, {
+      Header: 'Service category',
+      accessor: 'selectedCategory'
+    }, {
+      Header: 'Service subcategory',
+      accessor: 'selectedSubcategory',
+    }, {
+      Header: 'Date',
+      accessor: 'createdDate',
+      Cell: ({ value }) => moment(value).format('D MMM YY')
+    }, {
+      Header: 'Vendor name',
+      accessor: 'vendorName',
+    }, {
+      Header: 'Status',
+      accessor: 'status',
+    }]
+  }
+
+  _changePageIndex = (currentPageIndex) => {
+    this.setState({
+      currentPageIndex
+    });
+  }
+
+  _onTablePageChanged = (pageIndex) => {
+    this._changePageIndex(pageIndex);
+
+    const { data, getAllTransactions } = this.props;
+    const { to } = this.state;
+
+    const numOfPages = Math.ceil(data.length / TABLE_PAGE_SIZE);
+
+    if ((pageIndex + 1) === numOfPages) {
+      //last page
+      const lastTransaction = data[data.length - 1];
+
+      const formattedFrom = moment(lastTransaction.createdDate).utc().format();
+      const formattedTo = to.utc().format();
+
+      this.props.getAllTransactions(formattedFrom, formattedTo, lastTransaction);
+    }
+  }
+
+  _renderTable = () => {
+    const { data, loading } = this.props;
+    const { currentPageIndex } = this.state;
+
+    if (data.length) {
+      return (
+          <Table
+            data={data}
+            columns={this._getTableColumns()}
+            onPageChanged={this._onTablePageChanged}
+            loading={loading}
+            pageSize={TABLE_PAGE_SIZE}
+            page={currentPageIndex}
+          />
+      )
+    }
+
+    return false;
   }
 
   render() {
@@ -131,7 +208,7 @@ class TransactionReport extends Component {
 
         <p>Please select a date to generate a report from.</p>
 
-        <form onSubmit={this._generateReport}>
+        <form onSubmit={this._generateReport} style={{ paddingBottom: 10 }}>
           <div>
             <label className="DatePickerLabel">From</label>
 
@@ -176,6 +253,8 @@ class TransactionReport extends Component {
 
         {this._renderErrorMessage()}
         {this._renderLoading()}
+
+        {this._renderTable()}
       </div>
     );
   }
@@ -186,13 +265,14 @@ const mapStateToProps = (state) => {
     isLoggedIn: state.auth.loggedIn,
     loading: state.reports.loading,
     error: state.reports.errorMessage,
+    data: state.reports.transactionList,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getAllTransactions: (from, to) =>
-      dispatch(Actions.reportsGetAllTransactionAttempt(from, to)),
+    getAllTransactions: (from, to, lastTransaction) =>
+      dispatch(Actions.reportsGetAllTransactionAttempt(from, to, lastTransaction)),
   }
 }
 
