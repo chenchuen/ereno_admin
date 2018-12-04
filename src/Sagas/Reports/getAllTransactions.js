@@ -18,10 +18,10 @@ export function* handleGetAllTransactions(from, to, lastTransaction, api) {
 
   const response = yield call(api.getAllTransactions, from, to, token);
   const { data } = response;
-
+  
   if (data.status === 0) {
     //success
-    const dataArray = Object.keys(data.data).map(i => data.data[i]);
+    const dataArray = data.data;
     let newDataArrayToReturn = [];
     let lastTransactionIndex = -1;
     let shouldResetReduxData = false;

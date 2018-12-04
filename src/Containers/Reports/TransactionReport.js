@@ -173,7 +173,7 @@ class TransactionReport extends Component {
       const formattedFrom = moment(lastTransaction.createdDate).utc().format();
       const formattedTo = to.utc().format();
 
-      this.props.getAllTransactions(formattedFrom, formattedTo, lastTransaction);
+      getAllTransactions(formattedFrom, formattedTo, lastTransaction);
     }
   }
 
