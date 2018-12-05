@@ -4,6 +4,10 @@ import Types from './types';
 
 export default {
   reducer: createReducer(Reducers.INITIAL_STATE, {
+    [Types.REPORT_GET_ALL_CUSTOMER_ATTEMPT]: Reducers.getAllCustomersAttempt,
+    [Types.REPORT_GET_ALL_CUSTOMER_SUCCESS]: Reducers.getAllCustomersSuccess,
+    [Types.REPORT_GET_ALL_CUSTOMER_FAILURE]: Reducers.getAllCustomersFailure,
+
     [Types.REPORT_GET_CUSTOMER_INFO_ATTEMPT]: Reducers.getCustomerInfoAttempt,
     [Types.REPORT_GET_CUSTOMER_INFO_SUCCESS]: Reducers.getCustomerInfoSuccess,
     [Types.REPORT_GET_CUSTOMER_INFO_FAILURE]: Reducers.getCustomerInfoFailure,

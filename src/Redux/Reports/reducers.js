@@ -1,9 +1,44 @@
 const INITIAL_STATE = {
   loading: false,
   errorMessage: '',
-  customerInfo: {},
+  customerList: [],
   transactionList: [],
 };
+
+const getAllCustomersAttempt = (state = INITIAL_STATE) => {
+  return {
+    ...state,
+    loading: true,
+    errorMessage: '',
+  }
+}
+
+const getAllCustomersSuccess = (state = INITIAL_STATE, action) => {
+  const { customerList, shouldResetReduxData } = action;
+
+  let stateCustomerList = state.customerList;
+
+  if (stateCustomerList.length && !shouldResetReduxData) {
+    stateCustomerList = stateCustomerList.concat(customerList);
+  } else {
+    stateCustomerList = customerList;
+  }
+
+  return {
+    ...state,
+    loading: false,
+    errorMessage: '',
+    customerList: stateCustomerList,
+  };
+}
+
+const getAllCustomersFailure = (state = INITIAL_STATE, action) => {
+  return {
+    ...state,
+    errorMessage: action.error,
+    loading: false,
+  }
+}
 
 const getCustomerInfoAttempt = (state = INITIAL_STATE) => {
   return {
@@ -14,10 +49,14 @@ const getCustomerInfoAttempt = (state = INITIAL_STATE) => {
 };
 
 const getCustomerInfoSuccess = (state = INITIAL_STATE, action) => {
+  let newCustomerList = [];
+
+  newCustomerList.push(action.customerInfo);
+
   return {
     ...state,
     loading: false,
-    customerInfo: action.customerInfo
+    customerList: newCustomerList,
   };
 };
 
@@ -68,6 +107,10 @@ const getAllTransactionsFailure = (state = INITIAL_STATE, action) => {
 
 export default {
   INITIAL_STATE,
+
+  getAllCustomersAttempt,
+  getAllCustomersSuccess,
+  getAllCustomersFailure,
 
   getCustomerInfoAttempt,
   getCustomerInfoSuccess,

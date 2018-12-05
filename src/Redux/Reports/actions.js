@@ -1,5 +1,21 @@
 import Types from './types';
 
+const reportsGetAllCustomerAttempt = (from, to, lastCustomer) => ({
+  type: Types.REPORT_GET_ALL_CUSTOMER_ATTEMPT,
+  from, to, lastCustomer,
+});
+
+const reportsGetAllCustomerSuccess = (customerList, shouldResetReduxData) => ({
+  type: Types.REPORT_GET_ALL_CUSTOMER_SUCCESS,
+  customerList,
+  shouldResetReduxData
+});
+
+const reportsGetAllCustomerFailure = (error) => ({
+  type: Types.REPORT_GET_ALL_CUSTOMER_FAILURE,
+  error,
+});
+
 const reportsGetCustomerInfoAttempt = (email) => ({
   type: Types.REPORT_GET_CUSTOMER_INFO_ATTEMPT,
   email
@@ -34,6 +50,10 @@ const reportsGetAllTransactionFailure = (error) => ({
 });
 
 export default {
+  reportsGetAllCustomerAttempt,
+  reportsGetAllCustomerSuccess,
+  reportsGetAllCustomerFailure,
+
   reportsGetCustomerInfoAttempt,
   reportsGetCustomerInfoSuccess,
   reportsGetCustomerInfoFailure,

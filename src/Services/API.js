@@ -17,12 +17,26 @@ const create = (baseURL = 'https://us-central1-aladdinapp-942fe.cloudfunctions.n
     }, {});
   };
 
-  const getUserInfo = (email, token) => {
+  const getAllCustomers = (from, to, token) => {
+    return api.post(`/Reports`, {
+      Method: "USER",
+      Data: {
+        Token: token,
+        From: from,
+        To: to,
+        Email: '',
+        UserType: 'customer'
+      },
+    })
+  }
+
+  const getUserInfo = (email, userType, token) => {
     return api.post(`/Reports`, {
       Method: "USER",
       Data: {
         Email: email,
         Token: token,
+        UserType: userType
       },
     }, {});
   }
@@ -43,9 +57,10 @@ const create = (baseURL = 'https://us-central1-aladdinapp-942fe.cloudfunctions.n
   return {
     login,
 
-    getAllTransactions,
-
+    getAllCustomers,
     getUserInfo,
+
+    getAllTransactions,
   };
 };
 
