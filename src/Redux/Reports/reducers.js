@@ -3,6 +3,7 @@ const INITIAL_STATE = {
   errorMessage: '',
   customerList: [],
   transactionList: [],
+  vendorList: [],
 };
 
 const getAllCustomersAttempt = (state = INITIAL_STATE) => {
@@ -68,6 +69,32 @@ const getCustomerInfoFailure = (state = INITIAL_STATE, action) => {
   }
 }
 
+const getVendorInfoAttempt = (state = INITIAL_STATE) => {
+  return {
+    ...state,
+    loading: true,
+    errorMessage: '',
+  };
+};
+
+const getVendorInfoSuccess = (state = INITIAL_STATE, action) => {
+  return {
+    ...state,
+    loading: false,
+    vendorList: [].concat(action.vendorInfo),
+  };
+};
+
+const getVendorInfoFailure = (state = INITIAL_STATE, action) => {
+  const { errorMessage } = action;
+
+  return {
+    ...state,
+    loading: false,
+    errorMessage
+  };
+};
+
 const getAllTransactionsAttempt = (state = INITIAL_STATE) => {
   return {
     ...state,
@@ -115,6 +142,10 @@ export default {
   getCustomerInfoAttempt,
   getCustomerInfoSuccess,
   getCustomerInfoFailure,
+
+  getVendorInfoAttempt,
+  getVendorInfoSuccess,
+  getVendorInfoFailure,
 
   getAllTransactionsAttempt,
   getAllTransactionsSuccess,

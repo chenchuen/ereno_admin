@@ -12,6 +12,10 @@ export default {
     [Types.REPORT_GET_CUSTOMER_INFO_SUCCESS]: Reducers.getCustomerInfoSuccess,
     [Types.REPORT_GET_CUSTOMER_INFO_FAILURE]: Reducers.getCustomerInfoFailure,
 
+    [Types.REPORT_GET_VENDOR_INFO_ATTEMPT]: Reducers.getVendorInfoAttempt,
+    [Types.REPORT_GET_VENDOR_INFO_SUCCESS]: Reducers.getVendorInfoSuccess,
+    [Types.REPORT_GET_VENDOR_INFO_FAILURE]: Reducers.getVendorInfoFailure,
+
     [Types.REPORT_GET_ALL_TRANSACTION_ATTEMPT]: Reducers.getAllTransactionsAttempt,
     [Types.REPORT_GET_ALL_TRANSACTION_SUCCESS]: Reducers.getAllTransactionsSuccess,
     [Types.REPORT_GET_ALL_TRANSACTION_FAILURE]: Reducers.getAllTransactionsFailure,

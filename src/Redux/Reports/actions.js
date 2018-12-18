@@ -31,6 +31,21 @@ const reportsGetCustomerInfoFailure = (error) => ({
   error
 });
 
+const reportsGetVendorInfoAttempt = (vendorEmail) => ({
+  type: Types.REPORT_GET_VENDOR_INFO_ATTEMPT,
+  vendorEmail,
+});
+
+const reportsGetVendorInfoSuccess = (vendorInfo) => ({
+  type: Types.REPORT_GET_VENDOR_INFO_SUCCESS,
+  vendorInfo
+});
+
+const reportsGetVendorInfoFailure = (errorMessage) => ({
+  type: Types.REPORT_GET_VENDOR_INFO_FAILURE,
+  errorMessage
+});
+
 const reportsGetAllTransactionAttempt = (from, to, lastTransaction) => ({
   type: Types.REPORT_GET_ALL_TRANSACTION_ATTEMPT,
   from,
@@ -57,6 +72,10 @@ export default {
   reportsGetCustomerInfoAttempt,
   reportsGetCustomerInfoSuccess,
   reportsGetCustomerInfoFailure,
+
+  reportsGetVendorInfoAttempt,
+  reportsGetVendorInfoSuccess,
+  reportsGetVendorInfoFailure,
 
   reportsGetAllTransactionAttempt,
   reportsGetAllTransactionSuccess,
