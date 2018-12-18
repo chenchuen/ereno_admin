@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import moment from 'moment';
@@ -13,8 +13,8 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 const TABLE_PAGE_SIZE = 20;
 
-class CustomerReport extends Component {
-  constructor(props){
+class CustomerReport extends PureComponent {
+  constructor(props) {
    super(props);
 
    const from = moment().subtract(12, 'months');
@@ -123,6 +123,12 @@ class CustomerReport extends Component {
     return false;
   }
 
+  _changePageIndex = (currentPageIndex) => {
+    this.setState({
+      currentPageIndex
+    });
+  }
+
   _onTablePageChanged = (pageIndex) => {
     this._changePageIndex(pageIndex);
 
@@ -189,7 +195,7 @@ class CustomerReport extends Component {
       )
     }
 
-    return false;
+    return <p>No data found</p>;
   }
 
   render() {

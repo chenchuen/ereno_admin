@@ -69,6 +69,34 @@ const getCustomerInfoFailure = (state = INITIAL_STATE, action) => {
   }
 }
 
+const getAllVendorAttempt = (state = INITIAL_STATE) => {
+  return {
+    ...state,
+    loading: true,
+    errorMessage: '',
+  };
+};
+
+const getAllVendorSuccess = (state = INITIAL_STATE, action) => {
+  const { vendorList } = action;
+
+  return {
+    ...state,
+    loading: false,
+    vendorList,
+  };
+};
+
+const getAllVendorFailure = (state = INITIAL_STATE, action) => {
+  const { errorMessage } = action;
+
+  return {
+    ...state,
+    loading: false,
+    errorMessage,
+  };
+};
+
 const getVendorInfoAttempt = (state = INITIAL_STATE) => {
   return {
     ...state,
@@ -142,6 +170,10 @@ export default {
   getCustomerInfoAttempt,
   getCustomerInfoSuccess,
   getCustomerInfoFailure,
+
+  getAllVendorAttempt,
+  getAllVendorSuccess,
+  getAllVendorFailure,
 
   getVendorInfoAttempt,
   getVendorInfoSuccess,

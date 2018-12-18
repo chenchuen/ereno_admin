@@ -30,6 +30,19 @@ const create = (baseURL = 'https://us-central1-aladdinapp-942fe.cloudfunctions.n
     })
   }
 
+  const getAllVendors = (from, to, token) => {
+    return api.post(`/Reports`, {
+      Method: "USER",
+      Data: {
+        Token: token,
+        From: from,
+        To: to,
+        Email: '',
+        UserType: 'vendor'
+      }
+    })
+  }
+
   const getUserInfo = (email, userType, token) => {
     return api.post(`/Reports`, {
       Method: "USER",
@@ -58,6 +71,8 @@ const create = (baseURL = 'https://us-central1-aladdinapp-942fe.cloudfunctions.n
     login,
 
     getAllCustomers,
+    getAllVendors,
+
     getUserInfo,
 
     getAllTransactions,
