@@ -4,6 +4,7 @@ import { watchGetAllCustomers } from './getAllCustomers';
 import { watchGetCustomerInfo } from './getCustomerInfo';
 import { watchGetAllVendors } from './getAllVendors';
 import { watchGetVendorInfo } from './getVendorInfo';
+import { watchApproveVendor } from './approveVendor';
 import { watchGetAllTransactions } from './getAllTransactions';
 
 export default (api) => {
@@ -13,7 +14,8 @@ export default (api) => {
 
     yield fork(watchGetAllVendors, api);
     yield fork(watchGetVendorInfo, api);
-
+    yield fork(watchApproveVendor, api);
+    
     yield fork(watchGetAllTransactions, api);
   }
 

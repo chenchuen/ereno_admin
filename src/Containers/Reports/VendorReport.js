@@ -26,6 +26,7 @@ class VendorReport extends PureComponent {
      from,
      to,
      currentPageIndex: 0,
+     showOnlyUnapprovedVendors: false,
    }
 
    this.goBack = this.goBack.bind(this);
@@ -45,13 +46,18 @@ class VendorReport extends PureComponent {
     this._getVendorList();
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     const { errorMessage } = this.props;
+    const { showOnlyUnapprovedVendors } = this.state;
 
     if (prevProps.errorMessage !== errorMessage) {
       this.setState({
         error: errorMessage
       });
+    }
+
+    if (prevState.showOnlyUnapprovedVendors !== showOnlyUnapprovedVendors) {
+      //TO DO
     }
   }
 
@@ -205,7 +211,7 @@ class VendorReport extends PureComponent {
   }
 
   render() {
-    const { from, to, searchForVendor } = this.state;
+    const { from, to, searchForVendor, showOnlyUnapprovedVendors } = this.state;
 
     return (
       <div className="App">
@@ -230,6 +236,16 @@ class VendorReport extends PureComponent {
             >
               Search
             </button>
+          </div>
+
+          <div style={{ flexDirection: 'row' }}>
+            <input
+              type="checkbox"
+              checked={showOnlyUnapprovedVendors}
+              onChange={({ target }) => this.setState({ showOnlyUnapprovedVendors: target.checked })}
+            />
+
+            Show only unapproved vendors
           </div>
 
           <p>Please select a date to generate a report from.</p>
@@ -300,6 +316,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(Actions.reportsGetVendorInfoAttempt(vendorEmail)),
     getVendorList: (from, to, lastVendor) =>
       dispatch(Actions.reportsGetAllVendorAttempt(from, to, lastVendor)),
+    approveVendor: (vendorUID) =>
+      dispatch(Actions.reportsApproveVendorAttempt(vendorUID)),
   };
 };
 

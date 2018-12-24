@@ -43,6 +43,16 @@ const create = (baseURL = 'https://us-central1-aladdinapp-942fe.cloudfunctions.n
     })
   }
 
+  const approveVendor = (vendorUID, token) => {
+    return api.post('/Actions', {
+      Method: 'APPROVE_VENDOR',
+      Data: {
+        Token: token,
+        Uid: vendorUID
+      },
+    });
+  }
+
   const getUserInfo = (email, userType, token) => {
     return api.post(`/Reports`, {
       Method: "USER",
@@ -72,6 +82,7 @@ const create = (baseURL = 'https://us-central1-aladdinapp-942fe.cloudfunctions.n
 
     getAllCustomers,
     getAllVendors,
+    approveVendor,
 
     getUserInfo,
 

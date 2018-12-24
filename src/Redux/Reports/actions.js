@@ -63,6 +63,19 @@ const reportsGetVendorInfoFailure = (errorMessage) => ({
   errorMessage
 });
 
+const reportsApproveVendorAttempt = (vendorUID) => ({
+  type: Types.REPORTS_APPROVE_VENDOR_ATTEMPT,
+  vendorUID
+});
+
+const reportsApproveVendorSuccess = () => ({
+  type: Types.REPORTS_APPROVE_VENDOR_SUCCESS,
+});
+
+const reportsApproveVendorFailure = () => ({
+  type: Types.REPORTS_APPROVE_VENDOR_FAILURE,
+});
+
 const reportsGetAllTransactionAttempt = (from, to, lastTransaction) => ({
   type: Types.REPORT_GET_ALL_TRANSACTION_ATTEMPT,
   from,
@@ -97,6 +110,10 @@ export default {
   reportsGetVendorInfoAttempt,
   reportsGetVendorInfoSuccess,
   reportsGetVendorInfoFailure,
+
+  reportsApproveVendorAttempt,
+  reportsApproveVendorSuccess,
+  reportsApproveVendorFailure,
 
   reportsGetAllTransactionAttempt,
   reportsGetAllTransactionSuccess,
