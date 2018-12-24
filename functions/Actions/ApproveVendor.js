@@ -5,7 +5,12 @@ const await = require('es5-async-await/await');
 
 exports.ApproveVendor = async(function(Data) {
   try {
-    UpdateVendorStatus(Data.Uid);
+    if(Data.Status === 'Approved' || Data.Status === 'Unapproved' || Data.Status === 'Rejected'){
+      UpdateVendorStatus(Data.Uid, Data.Status);
+
+    } else {
+      throw new Error('Invalid status');
+    }
     return {
         status: 0,
         data: 'Done!'
@@ -19,9 +24,9 @@ exports.ApproveVendor = async(function(Data) {
   }
 });
 
-function UpdateVendorStatus(uid){
+function UpdateVendorStatus(uid, status){
   firebase.database().ref(`Users/vendor/${uid}`)
                   .update({
-                    ApprovalStatus: 'Approved'
+                    ApprovalStatus: status
                   });
 }
