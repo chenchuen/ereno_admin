@@ -199,9 +199,9 @@ class VendorReport extends PureComponent {
           page={currentPageIndex}
         />
       )
+    } else if (!loading) {
+        return <p>No data found</p>;
     }
-
-    return <p>No data found</p>;
   }
 
   render() {
