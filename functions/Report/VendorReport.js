@@ -5,7 +5,10 @@ const await = require('es5-async-await/await');
 
 exports.VendorReport = async(function(Data) {
   try {
-    var FirebaseVendorInfo = await(getVendors(Data.ApprovalStatus));
+    var From = new Date(Data.From).getTime();
+    var To = new Date(Data.To).getTime();
+    console.log(From, To);
+    var FirebaseVendorInfo = await(getVendors(Data.ApprovalStatus, From, To));
     if(FirebaseVendorInfo !== null){
       return {
           status: 0,
@@ -23,15 +26,20 @@ exports.VendorReport = async(function(Data) {
   }
 });
 
-function getVendors(ApprovalStatus){
+function getVendors(ApprovalStatus, From, To){
   return new Promise(function (resolve, reject) {
     firebase.database().ref('Users/vendor')
-                    .orderByChild('ApprovalStatus')
-                    .equalTo(ApprovalStatus)
+                    .orderByChild('SignUpDate')
+                    .startAt(From)
+                    .endAt(To)
                     .once('value', function (snapshot) {
                       var result = [];
                       snapshot.forEach(child => {
-                        result.push({vendorUid: child.key , vendorInfo: child});
+                        if(child.val().ApprovalStatus === ApprovalStatus){
+                          result.push({vendorUid: child.key , vendorInfo: child});
+                        } else if(ApprovalStatus === 'Both'){
+                          result.push({vendorUid: child.key , vendorInfo: child});
+                        }
                       });
                       resolve(result);
                     });
