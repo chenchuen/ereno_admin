@@ -108,6 +108,45 @@ const getAllVendorFailure = (state = INITIAL_STATE, action) => {
   };
 };
 
+const getApprovedVendorsAttempt = (state = INITIAL_STATE) => {
+  return {
+    ...state,
+    loading: true,
+    errorMessage: '',
+  }
+}
+
+const getApprovedVendorsSuccess = (state = INITIAL_STATE, action) => {
+  const { vendorList } = action;
+
+  let formattedVendorList = [];
+
+  for (let i = 0; i < vendorList.length; i++) {
+    const vendor = vendorList[i];
+
+    formattedVendorList = formattedVendorList.concat({
+      ...vendor.vendorInfo,
+      vendorUid: vendor.vendorUid
+    });
+  }
+
+  return {
+    ...state,
+    loading: false,
+    vendorList: formattedVendorList,
+  }
+}
+
+const getApprovedVendorsFailure = (state = INITIAL_STATE, action) => {
+  const { errorMessage } = action;
+
+  return {
+    ...state,
+    loading: false,
+    errorMessage
+  };
+}
+
 const getUnapprovedVendorsAttempt = (state = INITIAL_STATE) => {
   return {
     ...state,
@@ -224,6 +263,10 @@ export default {
   getAllVendorAttempt,
   getAllVendorSuccess,
   getAllVendorFailure,
+
+  getApprovedVendorsAttempt,
+  getApprovedVendorsSuccess,
+  getApprovedVendorsFailure,
 
   getUnapprovedVendorsAttempt,
   getUnapprovedVendorsSuccess,

@@ -27,6 +27,7 @@ class VendorReport extends PureComponent {
      to,
      currentPageIndex: 0,
      showOnlyUnapprovedVendors: false,
+     showOnlyApprovedVendors: false,
    }
 
    this.goBack = this.goBack.bind(this);
@@ -47,8 +48,14 @@ class VendorReport extends PureComponent {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { errorMessage, getUnapprovedVendors } = this.props;
-    const { showOnlyUnapprovedVendors, from, to } = this.state;
+    const { errorMessage, getUnapprovedVendors, getApprovedVendors } = this.props;
+
+    const {
+      showOnlyUnapprovedVendors,
+      showOnlyApprovedVendors,
+      from,
+      to
+    } = this.state;
 
     if (prevProps.errorMessage !== errorMessage) {
       this.setState({
@@ -62,7 +69,16 @@ class VendorReport extends PureComponent {
         const formattedFrom = from.utc().format();
         const formattedTo = to.utc().format();
 
-        getUnapprovedVendors(from, to);
+        getUnapprovedVendors(formattedFrom, formattedTo);
+      }
+    }
+
+    if (prevState.showOnlyApprovedVendors !== showOnlyApprovedVendors) {
+      if (showOnlyApprovedVendors) {
+        const formattedFrom = from.utc().format();
+        const formattedTo = to.utc().format();
+
+        getApprovedVendors(formattedFrom, formattedTo);
       }
     }
   }
@@ -268,7 +284,13 @@ class VendorReport extends PureComponent {
   }
 
   render() {
-    const { from, to, searchForVendor, showOnlyUnapprovedVendors } = this.state;
+    const {
+      from,
+      to,
+      searchForVendor,
+      showOnlyUnapprovedVendors,
+      showOnlyApprovedVendors
+    } = this.state;
 
     return (
       <div className="App">
@@ -295,11 +317,31 @@ class VendorReport extends PureComponent {
             </button>
           </div>
 
-          <div style={{ flexDirection: 'row' }}>
+          <div style={{ flexDirection: 'row', marginTop: 2 }}>
+            <input
+              type="checkbox"
+              checked={showOnlyApprovedVendors}
+              onChange={({ target }) => {
+                this.setState({
+                  showOnlyApprovedVendors: target.checked,
+                  showOnlyUnapprovedVendors: false,
+                });
+              }}
+            />
+
+            Show only approved vendors
+          </div>
+
+          <div style={{ flexDirection: 'row', marginTop: 2 }}>
             <input
               type="checkbox"
               checked={showOnlyUnapprovedVendors}
-              onChange={({ target }) => this.setState({ showOnlyUnapprovedVendors: target.checked })}
+              onChange={({ target }) => {
+                this.setState({
+                  showOnlyUnapprovedVendors: target.checked,
+                  showOnlyApprovedVendors: false,
+                })
+              }}
             />
 
             Show only unapproved vendors
@@ -373,6 +415,8 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(Actions.reportsGetVendorInfoAttempt(vendorEmail)),
     getVendorList: (from, to, lastVendor) =>
       dispatch(Actions.reportsGetAllVendorAttempt(from, to, lastVendor)),
+    getApprovedVendors: (from, to, lastVendor) =>
+      dispatch(Actions.reportsGetApprovedVendorsAttempt(from, to, lastVendor)),
     getUnapprovedVendors: (from, to, lastVendor) =>
       dispatch(Actions.reportsGetUnapprovedVendorsAttempt(from, to, lastVendor)),
     approveVendor: (vendorUID, status) =>

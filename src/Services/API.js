@@ -42,6 +42,18 @@ const create = (baseURL = 'https://us-central1-aladdinapp-942fe.cloudfunctions.n
     })
   }
 
+  const getApprovedVendors = (from, to, token) => {
+    return api.post('/Reports', {
+      Method: 'VENDOR',
+      Data: {
+        Token: token,
+        From: from,
+        To: to,
+        ApprovalStatus: 'Approved'
+      }
+    })
+  }
+
   const getUnapprovedVendors = (from, to, token) => {
     return api.post('/Reports', {
         Method: 'VENDOR',
@@ -94,6 +106,7 @@ const create = (baseURL = 'https://us-central1-aladdinapp-942fe.cloudfunctions.n
 
     getAllCustomers,
     getAllVendors,
+    getApprovedVendors,
     getUnapprovedVendors,
     approveVendor,
 
