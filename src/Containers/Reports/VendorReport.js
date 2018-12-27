@@ -175,8 +175,8 @@ class VendorReport extends PureComponent {
   _onTablePageChanged = (pageIndex) => {
     this._changePageIndex(pageIndex);
 
-    const { vendorList, getVendorList } = this.props;
-    const { to } = this.state;
+    const { vendorList, getVendorList, getApprovedVendors, getUnapprovedVendors } = this.props;
+    const { to, showOnlyApprovedVendors, showOnlyUnapprovedVendors } = this.state;
 
     const numOfPages = Math.ceil(vendorList.length / TABLE_PAGE_SIZE);
 
@@ -187,7 +187,13 @@ class VendorReport extends PureComponent {
       const formattedFrom = moment(lastVendor.createdDate).utc().format();
       const formattedTo = to.utc().format();
 
-      getVendorList(formattedFrom, formattedTo, lastVendor);
+      if (showOnlyApprovedVendors) {
+        getApprovedVendors(formattedFrom, formattedTo, lastVendor);
+      } else if (showOnlyUnapprovedVendors) {
+        getUnapprovedVendors(formattedFrom, formattedTo, lastVendor);
+      } else {
+        getVendorList(formattedFrom, formattedTo, lastVendor);
+      }
     }
   }
 

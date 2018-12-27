@@ -29,8 +29,14 @@ export function* handleGetUnapprovedVendors(from, to, lastVendor, api) {
       for (let i = 0; i < dataToReturn.length; i++) {
         //if there is a last vendor, we're gonna compare it with the new data
         //and if it's in the new data array, we'll only take data after this last vendor
+        if (dataToReturn[i].vendorUid === lastVendor.vendorUid) {
+          lastVendorIndex = i;
+          break;
+        }
+      }
 
-        //TO DO ONCE VENDOR UID IS HERE
+      if (lastVendorIndex >= 0) {
+        dataToReturn = dataToReturn.slice(lastVendorIndex + 1);
       }
     }
 
@@ -38,5 +44,4 @@ export function* handleGetUnapprovedVendors(from, to, lastVendor, api) {
   } else {
     yield put(Actions.reportsGetUnapprovedVendorsFailure("Something went wrong. Please try again later."));
   }
-
 }
