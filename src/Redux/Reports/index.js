@@ -16,6 +16,10 @@ export default {
     [Types.REPORT_GET_ALL_VENDOR_SUCCESS]: Reducers.getAllVendorSuccess,
     [Types.REPORT_GET_ALL_VENDOR_FAILURE]: Reducers.getAllVendorFailure,
 
+    [Types.REPORT_GET_UNAPPROVED_VENDORS_ATTEMPT]: Reducers.getUnapprovedVendorsAttempt,
+    [Types.REPORT_GET_UNAPPROVED_VENDORS_SUCCESS]: Reducers.getUnapprovedVendorsSuccess,
+    [Types.REPORT_GET_UNAPPROVED_VENDORS_FAILURE]: Reducers.getUnapprovedVendorsFailure,
+
     [Types.REPORT_GET_VENDOR_INFO_ATTEMPT]: Reducers.getVendorInfoAttempt,
     [Types.REPORT_GET_VENDOR_INFO_SUCCESS]: Reducers.getVendorInfoSuccess,
     [Types.REPORT_GET_VENDOR_INFO_FAILURE]: Reducers.getVendorInfoFailure,

@@ -80,14 +80,64 @@ const getAllVendorAttempt = (state = INITIAL_STATE) => {
 const getAllVendorSuccess = (state = INITIAL_STATE, action) => {
   const { vendorList } = action;
 
+  let formattedVendorList = [];
+
+  for (let i = 0; i < vendorList.length; i++) {
+    const vendor = vendorList[i];
+
+    formattedVendorList = formattedVendorList.concat({
+      ...vendor.vendorInfo,
+      vendorUid: vendor.vendorUid,
+    });
+  }
+
   return {
     ...state,
     loading: false,
-    vendorList,
+    vendorList: formattedVendorList,
   };
 };
 
 const getAllVendorFailure = (state = INITIAL_STATE, action) => {
+  const { errorMessage } = action;
+
+  return {
+    ...state,
+    loading: false,
+    errorMessage,
+  };
+};
+
+const getUnapprovedVendorsAttempt = (state = INITIAL_STATE) => {
+  return {
+    ...state,
+    loading: true,
+    errorMessage: '',
+  };
+};
+
+const getUnapprovedVendorsSuccess = (state = INITIAL_STATE, action) => {
+  const { vendorList } = action;
+
+  let formattedVendorList = [];
+
+  for (let i = 0; i < vendorList.length; i++) {
+    const vendor = vendorList[i];
+
+    formattedVendorList = formattedVendorList.concat({
+      ...vendor.vendorInfo,
+      vendorUid: vendor.vendorUid,
+    });
+  }
+
+  return {
+    ...state,
+    loading: false,
+    vendorList: formattedVendorList,
+  };
+};
+
+const getUnapprovedVendorsFailure = (state = INITIAL_STATE, action) => {
   const { errorMessage } = action;
 
   return {
@@ -174,6 +224,10 @@ export default {
   getAllVendorAttempt,
   getAllVendorSuccess,
   getAllVendorFailure,
+
+  getUnapprovedVendorsAttempt,
+  getUnapprovedVendorsSuccess,
+  getUnapprovedVendorsFailure,
 
   getVendorInfoAttempt,
   getVendorInfoSuccess,

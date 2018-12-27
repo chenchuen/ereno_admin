@@ -1,26 +1,24 @@
-import { call, take, put, select } from 'redux-saga/effects';
+import { put, take, select, call } from 'redux-saga/effects';
 
 import Actions from '../../Redux/Actions';
 import Types from '../../Redux/Reports/types';
 
-export function* watchGetAllVendors(api) {
+export function* watchGetUnapprovedVendors(api) {
   while (true) {
-    const { from, to, lastVendor} = yield take(Types.REPORT_GET_ALL_VENDOR_ATTEMPT);
+    const { from, to, lastVendor } = yield take(Types.REPORT_GET_UNAPPROVED_VENDORS_ATTEMPT);
 
-    yield call(handleGetAllVendors, from, to, lastVendor, api);
+    yield call(handleGetUnapprovedVendors, from, to, lastVendor, api);
   }
 }
 
-export function* handleGetAllVendors(from, to, lastVendor, api) {
+export function* handleGetUnapprovedVendors(from, to, lastVendor, api) {
   const state = yield select();
-
   const { token } = state.auth;
 
-  const response = yield call(api.getAllVendors, from, to, token);
-
-  console.log(response);
+  const response = yield call(api.getUnapprovedVendors, from, to, token);
 
   if (response.ok && response.data.status === 0) {
+    //all good
     let dataToReturn = response.data.data;
     let shouldResetReduxData = false;
     let lastVendorIndex = -1;
@@ -36,8 +34,9 @@ export function* handleGetAllVendors(from, to, lastVendor, api) {
       }
     }
 
-    yield put(Actions.reportsGetAllVendorSuccess(dataToReturn, shouldResetReduxData));
+    yield put(Actions.reportsGetUnapprovedVendorsSuccess(dataToReturn, shouldResetReduxData));
   } else {
-    yield put(Actions.reportsGetAllVendorFailure("Something went wrong. Please try again later."));
+    yield put(Actions.reportsGetUnapprovedVendorsFailure("Something went wrong. Please try again later."));
   }
+
 }

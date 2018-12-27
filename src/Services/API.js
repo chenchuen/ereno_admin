@@ -31,24 +31,36 @@ const create = (baseURL = 'https://us-central1-aladdinapp-942fe.cloudfunctions.n
   }
 
   const getAllVendors = (from, to, token) => {
-    return api.post(`/Reports`, {
-      Method: "USER",
+    return api.post('/Reports', {
+      Method: 'VENDOR',
       Data: {
         Token: token,
         From: from,
         To: to,
-        Email: '',
-        UserType: 'vendor'
+        ApprovalStatus: 'Both'
       }
     })
   }
+
+  const getUnapprovedVendors = (from, to, token) => {
+    return api.post('/Reports', {
+        Method: 'VENDOR',
+        Data: {
+          Token: token,
+          ApprovalStatus: 'Unapproved',
+          From: from,
+          To: to,
+        }
+    });
+  };
 
   const approveVendor = (vendorUID, token) => {
     return api.post('/Actions', {
       Method: 'APPROVE_VENDOR',
       Data: {
         Token: token,
-        Uid: vendorUID
+        Uid: vendorUID,
+        Status: 'Approved'
       },
     });
   }
@@ -82,6 +94,7 @@ const create = (baseURL = 'https://us-central1-aladdinapp-942fe.cloudfunctions.n
 
     getAllCustomers,
     getAllVendors,
+    getUnapprovedVendors,
     approveVendor,
 
     getUserInfo,

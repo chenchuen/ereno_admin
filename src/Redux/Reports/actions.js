@@ -38,9 +38,10 @@ const reportsGetAllVendorAttempt = (from, to, lastVendor) => ({
   lastVendor,
 });
 
-const reportsGetAllVendorSuccess = (vendorList) => ({
+const reportsGetAllVendorSuccess = (vendorList, shouldResetReduxData) => ({
   type: Types.REPORT_GET_ALL_VENDOR_SUCCESS,
   vendorList,
+  shouldResetReduxData
 });
 
 const reportsGetAllVendorFailure = (errorMessage) => ({
@@ -63,9 +64,28 @@ const reportsGetVendorInfoFailure = (errorMessage) => ({
   errorMessage
 });
 
-const reportsApproveVendorAttempt = (vendorUID) => ({
+const reportsGetUnapprovedVendorsAttempt = (from, to, lastVendor) => ({
+  type: Types.REPORT_GET_UNAPPROVED_VENDORS_ATTEMPT,
+  from,
+  to,
+  lastVendor
+});
+
+const reportsGetUnapprovedVendorsSuccess = (vendorList, shouldResetReduxData) => ({
+  type: Types.REPORT_GET_UNAPPROVED_VENDORS_SUCCESS,
+  vendorList,
+  shouldResetReduxData
+});
+
+const reportsGetUnapprovedVendorsFailure = (errorMessage) => ({
+  type: Types.REPORT_GET_UNAPPROVED_VENDORS_FAILURE,
+  errorMessage
+});
+
+const reportsApproveVendorAttempt = (vendorUID, status) => ({
   type: Types.REPORTS_APPROVE_VENDOR_ATTEMPT,
-  vendorUID
+  vendorUID,
+  status
 });
 
 const reportsApproveVendorSuccess = () => ({
@@ -110,6 +130,10 @@ export default {
   reportsGetVendorInfoAttempt,
   reportsGetVendorInfoSuccess,
   reportsGetVendorInfoFailure,
+
+  reportsGetUnapprovedVendorsAttempt,
+  reportsGetUnapprovedVendorsSuccess,
+  reportsGetUnapprovedVendorsFailure,
 
   reportsApproveVendorAttempt,
   reportsApproveVendorSuccess,

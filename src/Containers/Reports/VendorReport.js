@@ -47,8 +47,8 @@ class VendorReport extends PureComponent {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { errorMessage } = this.props;
-    const { showOnlyUnapprovedVendors } = this.state;
+    const { errorMessage, getUnapprovedVendors } = this.props;
+    const { showOnlyUnapprovedVendors, from, to } = this.state;
 
     if (prevProps.errorMessage !== errorMessage) {
       this.setState({
@@ -58,6 +58,12 @@ class VendorReport extends PureComponent {
 
     if (prevState.showOnlyUnapprovedVendors !== showOnlyUnapprovedVendors) {
       //TO DO
+      if (showOnlyUnapprovedVendors) {
+        const formattedFrom = from.utc().format();
+        const formattedTo = to.utc().format();
+
+        getUnapprovedVendors(from, to);
+      }
     }
   }
 
@@ -161,6 +167,53 @@ class VendorReport extends PureComponent {
     }
   }
 
+  _approveVendor = (vendorUid) => {
+    this.props.approveVendor(vendorUid, 'Approved');
+  }
+
+  _revokeVendor = (vendorUid) => {
+    this.props.approveVendor(vendorUid, 'Revoked');
+  }
+
+  _rejectVendor = (vendorUid) => {
+    this.props.approveVendor(vendorUid, 'Rejected');
+  }
+
+  _renderApproveButton = (props) => {
+    const { value, row } = props;
+    const { vendorUid } = row._original;
+
+    if (value === 'Approved') {
+      return (
+        <button
+          type='button'
+          onClick={() => this._revokeVendor(vendorUid)}
+        >
+          Revoke
+        </button>
+      )
+    }
+
+    return (
+      <div style={{ flexDirection: 'row' }}>
+        <button
+          type='button'
+          onClick={() => this._approveVendor(vendorUid)}
+        >
+          Approve
+        </button>
+
+        <button
+          type='button'
+          onClick={() => this._rejectVendor(vendorUid)}
+          style={{ marginLeft: 5 }}
+        >
+          Reject
+        </button>
+      </div>
+    )
+  }
+
   _getTableColumns = () => {
     return [{
       Header: 'Name',
@@ -186,7 +239,11 @@ class VendorReport extends PureComponent {
     }, {
       Header: 'Approval Status',
       accessor: 'ApprovalStatus',
-      Cell: ({ value }) => value || "Not approved"
+      Cell: ({ value }) => value || "Unapproved"
+    }, {
+      Header: 'Action',
+      accessor: 'ApprovalStatus',
+      Cell: (props) => this._renderApproveButton(props)
     }];
   }
 
@@ -316,8 +373,10 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(Actions.reportsGetVendorInfoAttempt(vendorEmail)),
     getVendorList: (from, to, lastVendor) =>
       dispatch(Actions.reportsGetAllVendorAttempt(from, to, lastVendor)),
-    approveVendor: (vendorUID) =>
-      dispatch(Actions.reportsApproveVendorAttempt(vendorUID)),
+    getUnapprovedVendors: (from, to, lastVendor) =>
+      dispatch(Actions.reportsGetUnapprovedVendorsAttempt(from, to, lastVendor)),
+    approveVendor: (vendorUID, status) =>
+      dispatch(Actions.reportsApproveVendorAttempt(vendorUID, status)),
   };
 };
 
