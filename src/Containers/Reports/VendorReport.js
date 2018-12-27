@@ -48,7 +48,11 @@ class VendorReport extends PureComponent {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { errorMessage, getUnapprovedVendors, getApprovedVendors } = this.props;
+    const {
+      errorMessage,
+      getUnapprovedVendors,
+      getApprovedVendors,
+    } = this.props;
 
     const {
       showOnlyUnapprovedVendors,
@@ -70,6 +74,8 @@ class VendorReport extends PureComponent {
         const formattedTo = to.utc().format();
 
         getUnapprovedVendors(formattedFrom, formattedTo);
+      } else if (!showOnlyApprovedVendors) {
+        this._getVendorList();
       }
     }
 
@@ -79,6 +85,8 @@ class VendorReport extends PureComponent {
         const formattedTo = to.utc().format();
 
         getApprovedVendors(formattedFrom, formattedTo);
+      } else if (!showOnlyUnapprovedVendors) {
+        this._getVendorList();
       }
     }
   }
