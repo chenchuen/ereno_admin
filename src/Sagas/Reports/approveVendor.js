@@ -15,7 +15,6 @@ export function* handleApproveVendor(vendorUID, status, api) {
   const state = yield select();
   const { token } = state.auth;
 
-  console.log(status, vendorUID);
   const response = yield call(api.approveVendor, vendorUID, token);
   console.log(response);
 

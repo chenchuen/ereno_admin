@@ -29,6 +29,16 @@
   background: grey;
 }
 
+.MoreInfoButton {
+  background: none!important;
+   color: inherit;
+   border: none;
+   padding: 0!important;
+   font: inherit;
+   border-bottom: 1px solid #444;
+   cursor: pointer;
+}
+
 .ErrorText {
   color: 'red'
 }

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import ReactLoading from 'react-loading';
+import Modal from 'react-modal';
 
 import Actions from '../../Redux/Actions';
 
@@ -28,6 +29,8 @@ class VendorReport extends PureComponent {
      currentPageIndex: 0,
      showOnlyUnapprovedVendors: false,
      showOnlyApprovedVendors: false,
+     showMoreInfoModal: false,
+     showMoreInfoVendor: '',
    }
 
    this.goBack = this.goBack.bind(this);
@@ -44,6 +47,7 @@ class VendorReport extends PureComponent {
       return null;
     }
 
+    Modal.setAppElement('body');
     this._getVendorList();
   }
 
@@ -209,6 +213,30 @@ class VendorReport extends PureComponent {
     this.props.approveVendor(vendorUid, 'Rejected');
   }
 
+  _renderMoreInfoButton = (props) => {
+    const { value, row } = props;
+
+    return (
+      <button
+        type='button'
+        className='MoreInfoButton'
+        onClick={() => this.setState({
+          showMoreInfoModal: true,
+          showMoreInfoVendor: row._original,
+        })}
+      >
+        {value}
+      </button>
+    )
+  }
+
+  _closeMoreInfoModal = () => {
+    this.setState({
+      showMoreInfoModal: false,
+      showMoreInfoVendor: ''
+    });
+  }
+
   _renderApproveButton = (props) => {
     const { value, row } = props;
     const { vendorUid } = row._original;
@@ -247,7 +275,8 @@ class VendorReport extends PureComponent {
   _getTableColumns = () => {
     return [{
       Header: 'Name',
-      accessor: 'name'
+      accessor: 'name',
+      Cell: (props) => this._renderMoreInfoButton(props)
     }, {
       Header: 'Email',
       accessor: 'email',
@@ -295,6 +324,53 @@ class VendorReport extends PureComponent {
     } else if (!loading) {
         return <p>No data found</p>;
     }
+  }
+
+  _renderMoreInfoModal = () => {
+    const { showMoreInfoModal, showMoreInfoVendor } = this.state;
+
+    const {
+      companyName,
+      companyRegistrationNumber,
+      email,
+      name,
+      noOfStaff,
+      phoneNo,
+      officeNo,
+      address,
+      city,
+      awards,
+      yearsOfCompany,
+      yearsOfExp,
+      SignUpDate,
+      LastLoginDate,
+      ApprovalStatus,
+    } = showMoreInfoVendor;
+
+    return (
+      <Modal
+        isOpen={showMoreInfoModal}
+        shouldCloseOnOverlayClick
+        shouldCloseOnEsc
+        onRequestClose={this._closeMoreInfoModal}
+      >
+        <p>Name: {name}</p>
+        <p>Email: {email}</p>
+        <p>Phone number: {phoneNo}</p>
+        <p>Office number: {officeNo}</p>
+        <p>Company name: {companyName}</p>
+        <p>Company registration number: {companyRegistrationNumber}</p>
+        <p>Years of company: {yearsOfCompany}</p>
+        <p>Number of staff: {noOfStaff}</p>
+        <p>Address: {address}</p>
+        <p>City: {city}</p>
+        <p>Awards won: {awards}</p>
+        <p>Years of experience: {yearsOfExp}</p>
+        <p>Sign up date: {moment(SignUpDate).format('DD MMM YYYY')}</p>
+        <p>Last login: {moment(LastLoginDate).format('DD MMM YYYY')}</p>
+        <p>Vendor approval status: {ApprovalStatus || 'Unapproved'}</p>
+      </Modal>
+    )
   }
 
   render() {
@@ -409,6 +485,8 @@ class VendorReport extends PureComponent {
             {this._renderLoading()}
 
             {this._renderTable()}
+
+            {this._renderMoreInfoModal()}
           </form>
       </div>
     );
