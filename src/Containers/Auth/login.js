@@ -1,7 +1,9 @@
 import React from 'react';
 
 import { connect } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
 
+import 'react-toastify/dist/ReactToastify.css';
 import './login.css';
 import Actions from '../../Redux/Actions';
 
@@ -58,6 +60,13 @@ class Login extends React.PureComponent {
     })
   }
 
+  _renderToastify = () => {
+    //for toast notifications
+    return (
+      <ToastContainer />
+    );
+  }
+
   render() {
     const { username, password, error } = this.state;
 
@@ -111,6 +120,8 @@ class Login extends React.PureComponent {
           >
             Forgot Password?
           </button>
+
+          {this._renderToastify()}
 
         </div>
         </form>
